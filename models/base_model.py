@@ -18,7 +18,7 @@ class BaseModel():
 
     def save(self):
         """Updates the datetime"""
-        self.updated_at = datetime.now().isoformat()
+        self.updated_at = datetime.now()
 
     def to_dict(self):
         """Returns a dictionary with all keys/values of __dict__"""
