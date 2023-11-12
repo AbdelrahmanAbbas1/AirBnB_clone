@@ -38,7 +38,16 @@ class TestBaseModel(unittest.TestCase):
         self.assertEqual(model.created_at.isoformat(), model_dict['created_at'])
         self.assertEqual(model.updated_at.isoformat(), model_dict['updated_at'])
         self.assertEqual('BaseModel', model_dict['__class__'])
+    
+    def test_id_uniqueness(self):
+        model1 = BaseModel()
+        model2 = BaseModel()
+        self.assertNotEqual(model1.id, model2.id)
 
+    def test_created_at_and_updated_at(self):
+        model = BaseModel()
+        self.assertIsInstance(model.created_at, datetime)
+        self.assertIsInstance(model.updated_at, datetime)
 
 if __name__ == '__main__':
     unittest.main()
