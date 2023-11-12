@@ -1,40 +1,38 @@
 #!/usr/bin/python3
-"""Defines the FileStorage class."""
+"""This module defines a FileStorage class"""
 import json
-from models.base_model import BaseModel
-from models.user import User
-from models.state import State
-from models.city import City
-from models.place import Place
-from models.amenity import Amenity
-from models.review import Review
+import os
 
-class FileStorage:
-	 __file_path = "file.json"
-	__objects = {}
 
-	def all(self):
-		return FileStorage.__objects
+class FileStorage():
+    """This class represents a filestorage"""
 
-	def new(self, obj):
-		key = "{}.{}".format(obj.__class__.____name__, obj.id)
-		FileStorage.__objects[key] = obj
+    __file_path = "file.json"
+    __objects = {}
 
-	def save(self):
-		serialized_objects = {}
-		for key, obj in FileStorage.__objects.items():
-			serialized_objects[key] = obj.to_dict()
-			with open(FileStorage.__file_path, 'w', encoding="utf-8") as file:
-				json.dump(serialized_objects, file)
+    def __init__(self):
+        """This function instantiate an instance of the class"""
 
-	def reload(self):
-		try:
-			with open(FileStorage.__file_path, 'r', encoding="utf-8") as file:
-				data = json.load(file)
-				for key, value in data.items():
-					class_name, obj_id = key.split('.')
-					obj_class = eval(class_name)
-					obj = obj_class(**value)
-					FileStorage.__objects[key] = obj
-		except FileNotFoundError:
-			pass
+    def all(self):
+        """This fucntion returns __objects"""
+        return FileStorage.__objects
+
+    def new(self, obj):
+        """This function sets the obj in __objects"""
+        class_name = obj.__class__.__name__
+        key = "{}.{}".format(class_name, obj.id)
+        FileStorage.__objects[key] = obj.to_dict()
+
+    def save(self):
+        """This function serializes __objects to JSON"""
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as f:
+            json.dump(FileStorage.__objects, f)
+
+    def reload(self):
+        """This function deserializes the JSON file to __objects"""
+        if os.path.exists(FileStorage.__file_path):
+            try:
+                with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
+                    FileStorage.__objects = json.load(f)
+            except FileNotFoundError:
+                return
