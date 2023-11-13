@@ -3,6 +3,9 @@
 import json
 import os
 from models.base_model import BaseModel
+from models.user import User
+
+classes = {"BaseModel": BaseModel, "User": User}
 
 
 class FileStorage():
@@ -39,7 +42,7 @@ class FileStorage():
                     obj_dict = json.load(f)
                     for obj in obj_dict.values():
                         cls_name = obj.pop("__class__", None)
-                        if cls_name == "BaseModel":
-                            self.new(BaseModel(**obj))
+                        if cls_name in classes:
+                            self.new(classes[cls_name](**obj))
             except FileNotFoundError:
                 return
