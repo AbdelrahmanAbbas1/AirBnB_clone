@@ -70,15 +70,20 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """all command to print all string representation of all instances"""
         obj_list = storage.all()
+        list_rep = []
         if len(arg) == 0:
             for obj in obj_list.values():
-                print(obj)
-            return
-        if arg in classes:
-            obj_list = storage.all()
+                list_rep.append(str(obj))
+            print("[", end="")
+            print(", ".join(list_rep), end="")
+            print("]")
+        elif arg in classes:
             for obj in obj_list.values():
                 if arg == obj.__class__.__name__:
-                    print(obj)
+                    list_rep.append(str(obj))
+            print("[", end="")
+            print(", ".join(list_rep), end="")
+            print("]")
         else:
             print("** class doesn't exist **")
 
