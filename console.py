@@ -21,6 +21,7 @@ class HBNBCommand(cmd.Cmd):
         if len(arg) != 0:
             if arg == "BaseModel":
                 obj = BaseModel()
+                print(obj.id)
                 obj.save()
             else:
                 print("** class doesn't exist **")
