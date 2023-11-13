@@ -10,5 +10,6 @@ class User(BaseModel):
     firs_name = ""
     last_name = ""
 
-    def __init__(self):
-        super().__init__(self)
+    def __init__(self, *args, **kwargs):
+        """Instantiate user"""
+        super().__init__(*args, **kwargs)
