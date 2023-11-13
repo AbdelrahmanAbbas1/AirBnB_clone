@@ -4,8 +4,9 @@ import cmd
 from models.base_model import BaseModel
 from models import storage
 import json
+from models.user import User
 
-classes = {"BaseModel": BaseModel}
+classes = {"BaseModel": BaseModel, "User": User}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -19,8 +20,8 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, arg):
         """create command to create an instance of class"""
         if len(arg) != 0:
-            if arg == "BaseModel":
-                obj = BaseModel()
+            if arg in classes:
+                obj = classes[arg]()
                 print(obj.id)
                 obj.save()
             else:
