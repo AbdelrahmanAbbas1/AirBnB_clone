@@ -25,6 +25,21 @@ class HBNBCommand(cmd.Cmd):
         """Do nothing if it's an emptyline"""
         pass
 
+    @property
+    def _methods(self):
+        """This function define a dictionary of methods"""
+        methods = {"create()": self.do_create, "all()": self.do_all}
+        return methods
+
+    def default(self, line):
+        """The default method to unkonwn commands"""
+        args = line.split(".")
+        commands = self._methods
+        if args[0] in classes and args[1] in commands:
+            commands[args[1]](args[0])
+        else:
+            print("*** Unknown syntax: {}".format(line))
+
     def do_create(self, arg):
         """create command to create an instance of class"""
         if len(arg) != 0:
